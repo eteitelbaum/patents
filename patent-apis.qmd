@@ -1,0 +1,63 @@
+---
+title: "Patent APIs"
+format: html
+---
+
+# R packages for patent data
+
+```{r}
+#install.packages("patentsview")
+#install.packages("patentr")
+```
+
+## Try `patentsview`
+
+Which patents have been cited by more than 500 U.S. patents?
+
+```{r}
+library(patentsview)
+
+patents_with_500_cites <- search_pv(query = qry_funs$gt(patent_num_cited_by_us_patents = 500))
+```
+
+How many distinct inventors are represented by these patents? 
+
+```{r}
+# Setting subent_cnts = TRUE will give us the subentity counts. Since inventors are subentities for the patents endpoint, this means we will get their counts.
+inventors <- search_pv(
+  query = qry_funs$gt(patent_num_cited_by_us_patents = 500),
+  fields = c("patent_number", "inventor_id"), 
+  subent_cnts = TRUE
+)
+```
+
+## Try `patentr`
+
+
+```{r}
+# load patentr
+library("patentr")
+
+#download patents from the first week of 1976
+get_bulk_patent_data(year = 1976,
+                     week = 1,
+                     output_file = "patent_output1.csv")
+
+# download patents from:
+#   1. week 1 of 1976 (TXT format in USPTO)
+#   2. week 48 of 2002 (XML format 1 in USPTO)
+#   3. week 19 of 2006 (XML format 2 in USPTO)
+# N.B. it will take a few minutes to run the next line
+
+# get_bulk_patent_data(year = c(1976, 2002, 2006),
+#                      week = c(1, 48, 19),
+#                      output_file = "patent_output2.csv")
+```
+Read the patent data from week 1 of 1976 back into R
+
+```{r}
+library(readr)
+
+week1_1976 <- read_csv("patent_output1.csv")
+```
+

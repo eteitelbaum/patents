@@ -1,0 +1,20 @@
+# Ignore R project user files
+.Rproj.user/
+
+# Ignore virtual environment
+venv/
+
+# Python-related files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
